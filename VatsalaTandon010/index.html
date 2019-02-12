@@ -1,38 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel =stylesheet type = "text/css" href = "ttt.css" media="screen">
-    <title>TIC-TAC-TOE</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   
-</head>
-<body>
-<div class="text-center"id="box">
-    <h1>Play Tic Tac Toe</h1>
-<div id="message"></div>
- <table colspan:10>
- <table cellpadding:"10" align="center">
-        <tr>
-            <td><input type="button" name="Make" value="Make a move"  class="button" onclick="fn(value)"></td>
-            <td><input type="button" name="Make a move" value="Make a move"  class="button" onclick="fn(value)"> </td>
-            <td><input type="button" name="Make a move" value="Make a move"  class="button" onclick="fn(value)"></td>
-        </tr>
-        <tr>
-            <td><input type="button" name="Make a move" value="Make a move"  class="button" onclick="fn(value)"></td>
-            <td><input type="button" name="Make a move" value="Make a move"  class="button" onclick="fn(value)"> </td>
-            <td><input type="button" name="Make a move" value="Make a move"  class="button" onclick="fn(value)"></td>
-        </tr>
-        <tr>
-            <td><input type="button" name="Make a move" value="Make a move"  class="button" onclick="fn(value)"></td>
-            <td><input type="button" name="Make a move" value="Make a move"  class="button" onclick="fn(value)"> </td>
-            <td><input type="button" name="Make a move" value="Make a move"  class="button" onclick="fn(value)"></td>
-        </tr>
-     </table>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="ttt.css">
+        <title>Tic-Tac-Toe</title>
+        <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+   <script>
+        function setplayer1(){
+            var player1= document.getElementById("player1").value;
+            $.ajax({
+                url: 'http://localhost:62726/api/scoresheets/'+player1,
+                type: 'GET',
+                dataType:'json',
+                success: function(res) {
+                    document.getElementById("scorex").value=res.score;
+                },
+                error:function(e){
+                    var dataToSend={
+                            "Player": player1,
+                            "score":0
+                        }
+                        $.ajax({
+                            url: 'http://localhost:62726/api/scoresheets',
+                            data: dataToSend,
+                            type: 'POST',
+                            dataType:'json',
+                            success: function(res) {
+                                console.log(res);
+                                alert("Player added");
+                            }
+                        });
+                }
+            });
+        }
+        function setplayer2(){
+            var player2= document.getElementById("player2").value;
+            $.ajax({
+                url: 'http://localhost:62726/api/scoresheets/'+player2,
+                
+                type: 'GET',
+                dataType:'json',
+                success: function(res) {
+                    document.getElementById("scoreo").value=res.score;
+                },
+                error:function(e){
+                    var dataToSend={
+                            "Player": player2,
+                            "score":0
+                        }
+                        $.ajax({
+                            url: 'http://localhost:62726/api/scoresheets',
+                            data: dataToSend,
+                            type: 'POST',
+                            dataType:'json',
+                            success: function(res) {
+                                console.log(res);
+                                alert("Player added");
+                            }
+                        });
+                }
+            });
+        }
+       
+     </script>
+    </head>
+    <body>
+        <h1>Tic Tac Toe</h1>
+        <div class="playernames">
+            <input type="text" placeholder="Player1" id="player1"/>
+            <input type="button" onclick="setplayer1();" value="Enter"/>
+            <input type ="text" placeholder="score" id="scorex"><br>
+            <input type="text" placeholder="Player2" id="player2"/>
+            <input type="button"onclick="setplayer2();"  value="Enter"/>
+            <input type="text" placeholder="score" id="scoreo"><br>
 
-  <div class="clear"></div>
-  <button id="reset">Clear</button>
-</div>
+        </div>
+        <button class="restart" , onclick="restart();">Start Game / &olarr;</button>
+       <div  id="main" >
+        <table>
+            <tr>
+                <td class="buttonn" id="move1" >Make a move</td>
+                <td class="buttonn" id="move2" >Make a move</td>
+                <td class="buttonn" id="move3" >Make a move</td>
+            </tr>
+            <tr>
+                <td class="buttonn" id="move4" >Make a move</td>
+                <td class="buttonn" id="move5" >Make a move</td>
+                <td class="buttonn" id="move6" >Make a move</td>
+            </tr>
+            <tr>
+                <td class="buttonn" id="move7" >Make a move</td>
+                <td class="buttonn" id="move8" >Make a move</td>
+                <td class="buttonn" id="move9" >Make a move</td>
+            </tr>
+        </table>
+       </div>
+        <div class="gameover">
+            <div class="text" id="winner"><h5> Player1:O   Player2:X</div>
+        </div>
+
+        <script src="ttt.js"></script>
+        
     </body>
 </html>
